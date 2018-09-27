@@ -1,0 +1,47 @@
+CREATE TABLESPACE quiz_noche DATAFILE
+'/datafile@01.dbf' SIZE 10M,
+'/datafile@02.dbf' SIZE 10M;
+
+CREATE PROFILE estudiante
+limit connect_time 300;
+
+CREATE USER usuario1
+IDENTIFIED BY usuario1
+DEFAULT TABLESPACE quiz_noche;
+
+GRANT CONNECT TO usuario1;
+
+Alter user usuario1 profile estudiante;
+
+Alter user usuario1 QUOTA UNLIMITED ON quiz_noche;
+
+GRANT CREATE TABLE TO usuario1;
+
+CREATE USER usuario2
+IDENTIFIED BY usuario2
+DEFAULT TABLESPACE quiz_noche;
+
+GRANT CONNECT TO usuario2;
+
+Alter user usuario2 profile estudiante;
+
+
+
+
+create table attacks (
+	id INT,
+	url VARCHAR(2048),
+	ip_address VARCHAR(20),
+	number_of_attacks INT,
+	time_of_last_attack TIMESTAMP
+);
+
+select * from attacks 
+where number_of_attacks > 0 AND url LIKE 'http:%';
+
+select count (id) from attacks
+where number_of_attacks > 0 AND url LIKE 'http:%';
+
+select * from attacks
+where url LIKE '%google%'
+order by number_of_attacks DESC;
